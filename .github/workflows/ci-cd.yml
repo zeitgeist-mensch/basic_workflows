@@ -20,12 +20,19 @@ jobs:
         with:
           python-version: '3.13'
           cache: 'poetry'
+          cache-dependency-path: './server/poetry.lock'
       - name: Install Poetry
         run: pip install poetry
       - name: Install dependencies
         run: poetry install --no-root
       - name: Build Docker image
         run: docker build -t server-api .
+      - name: Upload Server Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-build-log
+          path: ./server
 
   client-ci:
     runs-on: ubuntu-latest
@@ -46,3 +53,9 @@ jobs:
         run: npm run build
       - name: Build Docker image
         run: docker build -t client-ui .
+      - name: Upload Client Dist
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-dist
+          path: ./client/dist
