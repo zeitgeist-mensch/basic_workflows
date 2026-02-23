@@ -38,7 +38,6 @@ ENV/
 
 # Poetry
 .poetry/
-poetry.lock
 
 # Environment
 .env
